@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ConectaLab — Plataforma de Teletrabajo Inclusivo</title>
+  <meta name="description" content="ConectaLab conecta personas con discapacidad con empleos remotos accesibles. Formación, asesoría y acompañamiento para la inclusión laboral." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%2300a2ff'/%3E%3Cpath d='M30 52a20 20 0 1140 0 20 20 0 01-40 0z' fill='white'/%3E%3Cpath d='M33 52a17 17 0 1134 0 17 17 0 01-34 0z' fill='%2300a2ff'/%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --card: #111931;
+      --muted: #9fb3c8;
+      --text: #e6eef7;
+      --brand: #00a2ff;
+      --brand-2:#6cf6e9;
+      --ring: #88d0ff44;
+      --ok: #11c26f;
+      --warn:#ffcc00;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Noto Sans", Ubuntu, Cantarell, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text); background: radial-gradient(1200px 800px at 10% -10%, #0f2244, transparent), radial-gradient(900px 600px at 90% 10%, #04253a, transparent), var(--bg);
+      line-height:1.6;
+    }
+    a{color:var(--brand)}
+    .container{width:min(1100px, 92%); margin-inline:auto}
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(140%) blur(8px);
+      background:rgba(11,16,32,.6); border-bottom:1px solid #23304f;
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0}
+    .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text)}
+    .logo-dot{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-2))}
+    .logo span{font-weight:800; letter-spacing:.3px}
+    nav ul{display:flex; gap:14px; list-style:none; padding:0; margin:0}
+    nav a{display:inline-block; padding:8px 12px; border-radius:999px; text-decoration:none; color:var(--text); border:1px solid transparent}
+    nav a:focus, nav a:hover{border-color:#264a7d; outline:none; box-shadow:0 0 0 6px var(--ring)}
+
+    .hero{padding:64px 0 36px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center}
+    .hero h1{font-size:clamp(28px, 3.6vw, 44px); line-height:1.15; margin:0}
+    .hero p{color:var(--muted); margin:14px 0 22px}
+    .cta{display:flex; flex-wrap:wrap; gap:10px}
+    .btn{appearance:none; border:0; padding:12px 18px; border-radius:14px; font-weight:700; cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#00131f}
+    .btn-secondary{background:#1d2a4a; color:var(--text); border:1px solid #2a3e69}
+    .statbar{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px}
+    .stat{background:linear-gradient(180deg,#0e1833,#0a142a); border:1px solid #243457; padding:14px; border-radius:14px}
+    .stat b{font-size:18px}
+
+    .card{background:linear-gradient(180deg,#0e1833,#0a142a); border:1px solid #243457; border-radius:18px; padding:22px}
+
+    .section{padding:46px 0}
+    .section h2{font-size:clamp(22px,3vw,32px); margin:0 0 12px}
+    .section p.lead{color:var(--muted); margin:0 0 22px}
+
+    .grid{display:grid; gap:18px}
+
+    .steps{grid-template-columns:repeat(auto-fit, minmax(240px, 1fr))}
+    .benefits{grid-template-columns:repeat(auto-fit, minmax(250px, 1fr))}
+    .step, .benefit{position:relative}
+    .step .num{position:absolute; inset:auto auto 12px 12px; background:#001e32; color:#8fd3ff; padding:4px 10px; border:1px solid #24486f; border-radius:999px; font-size:12px}
+
+    .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; border:1px solid #2a3e69; background:#0e1833; color:#9fc7ff; font-size:12px}
+
+    .about{display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:start}
+
+    .footer{padding:26px 0 46px; color:#98a9bd}
+    .credits{font-size:14px; display:grid; gap:6px}
+
+    /* Responsive */
+    @media (max-width: 860px){
+      .hero-grid, .about{grid-template-columns:1fr}
+      .statbar{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 520px){
+      nav ul{display:none}
+      .statbar{grid-template-columns:1fr}
+    }
+
+    /* Skip link */
+    .skip-link{position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden}
+    .skip-link:focus{left:12px; top:12px; width:auto; height:auto; padding:8px 12px; background:#001e32; color:#fff; border-radius:10px; border:1px solid #2a3e69; z-index:1000}
+
+    /* Simple Print */
+    @media print{
+      header, .cta, .statbar, form, .footer{display:none}
+      body{background:#fff; color:#000}
+      .card{border:1px solid #999}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#inicio" aria-label="Ir al inicio">
+        <span class="logo-dot" aria-hidden="true"></span>
+        <span>ConectaLab</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="#funciona">Cómo funciona</a></li>
+          <li><a href="#beneficios">Beneficios</a></li>
+          <li><a href="#sobre">Sobre el proyecto</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- HERO -->
+    <section id="inicio" class="hero container">
+      <div class="hero-grid">
+        <div>
+          <span class="pill" aria-hidden="true">Plataforma de teletrabajo inclusivo</span>
+          <h1>Conecta personas con discapacidad y empresas con ofertas de <em>teletrabajo accesible</em>.</h1>
+          <p>Formación, asesoría y acompañamiento para integrarse y desarrollarse en empleos remotos, promoviendo la inclusión laboral y la autonomía económica.</p>
+          <div class="cta">
+            <a class="btn btn-primary" href="#contacto">Quiero postular</a>
+            <a class="btn btn-secondary" href="#funciona">Ver cómo funciona</a>
+          </div>
+          <div class="statbar" role="group" aria-label="Indicadores de impacto (ejemplo)">
+            <div class="stat"><b>+120</b><br><span class="muted">Personas capacitadas</span></div>
+            <div class="stat"><b>85%</b><br><span class="muted">Tasa de inserción</span></div>
+            <div class="stat"><b>60</b><br><span class="muted">Empresas aliadas</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="card" aria-label="Ilustración">
+            <svg viewBox="0 0 560 380" role="img" aria-label="Ilustración de conexión entre talento y empresas" width="100%" height="auto">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#00a2ff"/>
+                  <stop offset="100%" stop-color="#6cf6e9"/>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="560" height="380" rx="18" fill="#0b1530" stroke="#243457"/>
+              <g>
+                <circle cx="130" cy="90" r="42" fill="url(#g1)"/>
+                <rect x="80" y="140" width="100" height="60" rx="10" fill="#14264c" stroke="#2a3e69"/>
+                <circle cx="430" cy="90" r="42" fill="#1dd4bf"/>
+                <rect x="380" y="140" width="100" height="60" rx="10" fill="#14264c" stroke="#2a3e69"/>
+                <path d="M180 90 C 240 90, 320 90, 390 90" stroke="url(#g1)" stroke-width="6" fill="none"/>
+                <circle cx="280" cy="210" r="54" fill="#203765" stroke="#2a3e69"/>
+                <path d="M130 170 Q 280 260 430 170" stroke="#6cf6e9" stroke-width="3" fill="none" opacity=".7"/>
+              </g>
+              <text x="280" y="330" text-anchor="middle" fill="#9fb3c8" font-size="18">Talento conectado con oportunidades accesibles</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section id="funciona" class="section">
+      <div class="container">
+        <h2>Cómo funciona</h2>
+        <p class="lead">Cinco pasos para empezar a trabajar de forma remota con accesibilidad y apoyo.</p>
+        <div class="grid steps">
+          <article class="card step">
+            <h3>1) Perfil y diagnóstico</h3>
+            <p>Creas tu perfil indicando habilidades, tipo de discapacidad y necesidades de adaptación.</p>
+            <span class="num">Paso 1</span>
+          </article>
+          <article class="card step">
+            <h3>2) Oferta de empleos</h3>
+            <p>Las empresas publican vacantes con especificaciones claras sobre accesibilidad y condiciones.</p>
+            <span class="num">Paso 2</span>
+          </article>
+          <article class="card step">
+            <h3>3) Formación personalizada</h3>
+            <p>Cursos y talleres para mejorar habilidades digitales, comunicación remota y adaptaciones tecnológicas.</p>
+            <span class="num">Paso 3</span>
+          </article>
+          <article class="card step">
+            <h3>4) Acompañamiento</h3>
+            <p>Mentores y coaches te apoyan en la búsqueda y adaptación al trabajo remoto.</p>
+            <span class="num">Paso 4</span>
+          </article>
+          <article class="card step">
+            <h3>5) Red de apoyo</h3>
+            <p>Foros para compartir experiencias, resolver dudas y fortalecer la comunidad.</p>
+            <span class="num">Paso 5</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section id="beneficios" class="section">
+      <div class="container">
+        <h2>Beneficios</h2>
+        <p class="lead">Diseñado para reducir barreras y aumentar la autonomía económica.</p>
+        <div class="grid benefits">
+          <article class="card benefit">
+            <h3>Acceso desde cualquier lugar</h3>
+            <p>Conéctate a oportunidades remotas sin necesidad de desplazamiento.</p>
+          </article>
+          <article class="card benefit">
+            <h3>Inclusión y autonomía</h3>
+            <p>Promueve la inclusión laboral y el desarrollo profesional sostenido.</p>
+          </article>
+          <article class="card benefit">
+            <h3>Menos barreras físicas</h3>
+            <p>El teletrabajo reduce obstáculos de movilidad y accesibilidad física.</p>
+          </article>
+          <article class="card benefit">
+            <h3>Conciencia empresarial</h3>
+            <p>Impulsa buenas prácticas de accesibilidad en las organizaciones.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE EL PROYECTO / CRÉDITOS -->
+    <section id="sobre" class="section">
+      <div class="container about">
+        <div class="card">
+          <h2>Sobre ConectaLab</h2>
+          <p>ConectaLab es una plataforma digital que conecta personas con discapacidad con empresas que ofrecen oportunidades de teletrabajo adaptadas a sus necesidades. Además brinda formación, asesoría y acompañamiento para integrarse y crecer en empleos remotos.</p>
+          <ul>
+            <li>Enfoque en accesibilidad y ajustes razonables.</li>
+            <li>Capacitación práctica y mentoría continua.</li>
+            <li>Comunidad para apoyo entre pares.</li>
+          </ul>
+        </div>
+        <aside class="card" aria-label="Créditos">
+          <h3>Créditos</h3>
+          <p><strong>Creado por:</strong> Matias Cccoycca, Thiago Vidalon, Martin Saravia, Yamile Ruiz, Valentina Rojas</p>
+          <p><strong>Docente:</strong> Dra. Laura Valiente</p>
+          <p><strong>Colegio:</strong> IEE Melitón Carvajal 1070</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- CONTACTO / FORMULARIO -->
+    <section id="contacto" class="section">
+      <div class="container">
+        <h2>Contacto</h2>
+        <p class="lead">¿Eres una persona buscando teletrabajo accesible o una empresa con vacantes? Déjanos tus datos y te contactamos.</p>
+        <form class="card" id="form" novalidate>
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px">
+            <div>
+              <label for="tipo">Soy</label><br>
+              <select id="tipo" name="tipo" required>
+                <option value="" selected disabled>Selecciona una opción</option>
+                <option>Persona en búsqueda</option>
+                <option>Empresa con vacantes</option>
+                <option>Mentor/a</option>
+              </select>
+            </div>
+            <div>
+              <label for="nombre">Nombre</label><br>
+              <input id="nombre" name="nombre" type="text" required placeholder="Tu nombre completo" />
+            </div>
+            <div>
+              <label for="email">Correo</label><br>
+              <input id="email" name="email" type="email" required placeholder="tunombre@correo.com" />
+            </div>
+            <div>
+              <label for="mensaje">Mensaje</label><br>
+              <textarea id="mensaje" name="mensaje" rows="3" placeholder="Cuéntanos brevemente qué necesitas"></textarea>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center; margin-top:12px">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+            <span id="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="credits">
+        <span>© <span id="year"></span> ConectaLab. Hecho con ❤️ para impulsar la inclusión laboral.</span>
+        <small>Esta es una maqueta educativa. Integra tu propio backend para gestionar ofertas y postulaciones.</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año automático
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Validación simple del formulario (demo)
+    const form = document.getElementById('form');
+    const status = document.getElementById('status');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const valid = form.checkValidity();
+      if(!valid){
+        status.textContent = 'Por favor completa los campos requeridos.';
+        status.style.color = '#ffcc00';
+        form.reportValidity();
+        return;
+      }
+      // Simulación de envío
+      status.textContent = '¡Gracias! Te contactaremos pronto.';
+      status.style.color = '#11c26f';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
